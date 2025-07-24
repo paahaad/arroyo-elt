@@ -1,6 +1,7 @@
 # ETL Pipeline for Pump.fun Account Data
-
 This repo uses an Arroyo WebSocket source to stream data. It parses the incoming data using a user-defined function (UDF) that deserializes it with Borsh. The processed data is then sent to Kafka (in KRaft mode) in Debezium format.
+
+<img width="3053" height="841" alt="image" src="https://github.com/user-attachments/assets/1e39764a-113a-479e-b6bc-4caa872d04fc" />
 
 Kafka Connect runs in a distributed setup, with connectors configured to sink data into both PostgreSQL and TimescaleDB.
 
