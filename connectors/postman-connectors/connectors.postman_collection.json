@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "57c99a32-4f7e-45bb-be59-34d880b1616d",
+		"name": "connectors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34262389"
+	},
+	"item": [
+		{
+			"name": "source",
+			"item": [
+				{
+					"name": "postgres-source",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"postgres-source-connector\",\n  \"config\": {\n    \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\n    \"database.hostname\": \"localhost\",\n    \"database.port\": \"5432\",\n    \"database.user\": \"debezium\",\n    \"database.password\": \"debezium\",\n    \"database.dbname\": \"postgres\",\n    \"database.server.name\": \"postgres\",\n    \"table.include.list\": \"public.pump_mint\",\n    \"plugin.name\": \"pgoutput\",\n    \"slot.name\": \"debezium_slot\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/connectors/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "source-monitor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/connectors/postgres-source-connector/status",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								"postgres-source-connector",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sink",
+			"item": [
+				{
+					"name": "postgres-sink",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"postgres-sink-connector\",\n  \"config\": {\n    \"connector.class\": \"io.debezium.connector.jdbc.JdbcSinkConnector\",\n    \"consumer.override.auto.offset.reset\": \"latest\",\n    \"tasks.max\": \"1\",\n    \"connection.url\": \"jdbc:postgresql://localhost:5433/pump\",\n    \"connection.username\": \"admin\",\n    \"connection.password\": \"admin\",\n    \"topics\": \"pump_mint\",\n    \"key.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n    \"value.converter.schemas.enable\": true,\n    \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\n    \"auto.create\": \"true\",\n    \"auto.evolve\": \"true\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/connectors/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "timescale-sink",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"timescale-sink-connector\",\n  \"config\": {\n    \"connector.class\": \"io.debezium.connector.jdbc.JdbcSinkConnector\",\n    \"consumer.override.auto.offset.reset\": \"latest\",\n    \"tasks.max\": \"1\",\n    \"connection.url\": \"jdbc:postgresql://localhost:5434/pump\",\n    \"connection.username\": \"admin\",\n    \"connection.password\": \"admin\",\n    \"topics\": \"pump_mint\",\n    \"key.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n    \"value.converter.schemas.enable\": true,\n    \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\n    \"schema.evolution\": \"basic\",\n    \"auto.create\": \"true\",\n    \"auto.evolve\": \"true\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/connectors/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postgres-monit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/connectors/postgres-sink-connector/status",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								"postgres-sink-connector",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "timescale-monit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/connectors/timescale-sink-connector/status",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								"timescale-sink-connector",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delect-connector",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/connectors/postgres-sink-connector",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								"postgres-sink-connector"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delect-connector Copy",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/connectors/timescale-sink-connector",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"connectors",
+								"timescale-sink-connector"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8083",
+			"type": "default"
+		}
+	]
+}
