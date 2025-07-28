@@ -3,6 +3,11 @@ This repo uses an Arroyo WebSocket source to stream data. It parses the incoming
 
 <img width="3053" height="841" alt="image" src="https://github.com/user-attachments/assets/1e39764a-113a-479e-b6bc-4caa872d04fc" />
 
+## DEMO
+[![Watch the video](https://img.youtube.com/vi/cUPeAbmXjqo/maxresdefault.jpg)](https://youtu.be/cUPeAbmXjqo)
+
+
+
 Kafka Connect runs in a distributed setup, with connectors configured to sink data into both PostgreSQL and TimescaleDB.
 
 
